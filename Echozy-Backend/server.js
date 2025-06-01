@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import songRouter from './src/routes/songRoutes.js';
 import  connectdb  from './src/config/mongodb.js';
-import   connectCloudinary  from './src/config/cloudinary.js';
+import  connectCloudinary  from './src/config/cloudinary.js';
 
 dotenv.config();
 connectdb();
@@ -24,7 +24,7 @@ app.get('/ping', (req, res) => {
   res.send('✅ Server is alive');
 });
 
-app.use("/api/songs", songRouter);  // Changed to plural "/api/songs" (REST convention)
+app.use("/api/song", songRouter);  // Changed to plural "/api/songs" (REST convention)
 
 app.use((req, res) => res.status(404).json({ error: 'Not Found' }));
 
