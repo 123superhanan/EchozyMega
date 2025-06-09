@@ -4,6 +4,8 @@ import cors from 'cors';
 import songRouter from './src/routes/songRoutes.js';
 import  connectdb  from './src/config/mongodb.js';
 import  connectCloudinary  from './src/config/cloudinary.js';
+const authRoutes = require('./routes/auth');
+
 
 dotenv.config();
 connectdb();
@@ -25,7 +27,7 @@ app.get('/ping', (req, res) => {
 });
 
 app.use("/api/song", songRouter);  // Changed to plural "/api/songs" (REST convention)
-
+app.use('/api/auth', authRoutes);
 app.use((req, res) => res.status(404).json({ error: 'Not Found' }));
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
