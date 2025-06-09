@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
 
+import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email:    { type: String, required: true, unique: true },
@@ -7,4 +7,5 @@ const userSchema = new mongoose.Schema({
   avatar:   { type: String } // optional Cloudinary link
 }, { timestamps: true });
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+export default User

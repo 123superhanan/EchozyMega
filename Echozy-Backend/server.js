@@ -4,7 +4,7 @@ import cors from 'cors';
 import songRouter from './src/routes/songRoutes.js';
 import  connectdb  from './src/config/mongodb.js';
 import  connectCloudinary  from './src/config/cloudinary.js';
-const authRoutes = require('./routes/auth');
+import authRoutes from './src/routes/authRoutes.js';
 
 
 dotenv.config();

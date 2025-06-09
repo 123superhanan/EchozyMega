@@ -11,23 +11,55 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (isLogin) {
-      if (email && password) {
-        localStorage.setItem('isLoggedIn', 'true');
-        navigate('/music');
-      } else {
-        alert('Please enter your email and password.');
+  const handleSubmit = async () => {
+  if (isLogin) {
+    // Login flow
+    if (email && password) {
+      try {
+        const res = await fetch('http://localhost:4000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.token);  // assuming backend sends JWT token
+          localStorage.setItem('isLoggedIn', 'true');
+          navigate('/music');
+        } else {
+          alert(data.message || 'Login failed');
+        }
+      } catch (err) {
+        alert('Network error: ' + err.message);
       }
     } else {
-      if (name && email && password) {
-        alert('Fake signup success 🎉');
-        setIsLogin(true);
-      } else {
-        alert('Fill all fields to register.');
-      }
+      alert('Please enter your email and password.');
     }
-  };
+  } else {
+    // Signup flow
+    if (name && email && password) {
+      try {
+        const res = await fetch('http://localhost:4000/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: name, email, password }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert('Signup successful! Please login.');
+          setIsLogin(true);
+        } else {
+          alert(data.message || 'Signup failed');
+        }
+      } catch (err) {
+        alert('Network error: ' + err.message);
+      }
+    } else {
+      alert('Fill all fields to register.');
+    }
+  }
+};
+
 
   return (
     <div
